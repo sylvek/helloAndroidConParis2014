@@ -48,9 +48,11 @@ public class MainActivity extends Activity {
                 @Override
                 public void run()
                 {
-                    if (!macAddress.contains(device.getAddress())) {
-                        macAddress.add(device.getAddress());
-                        mAdapter.add(device.getName());
+                    final String address = device.getAddress();
+                    if (!macAddress.contains(address)) {
+                        macAddress.add(address);
+                        final String name = device.getName();
+                        mAdapter.add((name != null) ? name : address);
                         mAdapter.notifyDataSetChanged();
                     }
                 }
