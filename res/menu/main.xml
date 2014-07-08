@@ -6,6 +6,6 @@
         android:id="@+id/action_scan"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_scan"/>
+        android:title="@string/action_scan_start"/>
 
 </menu>

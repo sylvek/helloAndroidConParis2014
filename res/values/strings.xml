@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hello iBeacon</string>
-    <string name="action_scan">scan</string>
+    <string name="app_name">Hello DroidCon Paris 2014</string>
+    <string name="action_scan_start">scan</string>
+    <string name="action_scan_stop">stop</string>
     <string name="ble_not_supported">sorry bluetooth LE is not supported on your device</string>
+    <string name="title_activity_device">Device</string>
+    <string name="hello_world">--</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
