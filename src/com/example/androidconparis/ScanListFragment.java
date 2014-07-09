@@ -3,6 +3,7 @@ package com.example.androidconparis;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,15 +27,13 @@ public class ScanListFragment extends ListFragment {
 
     private final List<String> macAddress = new ArrayList<String>();
 
-    private ScanListPresenter presenter;
+    private OnScanListListener presenter;
 
     private boolean isScan = false;
 
-    public static ScanListFragment instance(ScanListPresenter presenter)
+    public static ScanListFragment instance()
     {
-        ScanListFragment instance = new ScanListFragment();
-        instance.presenter = presenter;
-        return instance;
+        return new ScanListFragment();
     }
 
     private void clear()
@@ -123,13 +122,24 @@ public class ScanListFragment extends ListFragment {
     }
 
     @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        if (activity instanceof OnScanListListener) {
+            presenter = (OnScanListListener) activity;
+        } else {
+            throw new ClassCastException("must implement OnScanListListener");
+        }
+    }
+
+    @Override
     public void onResume()
     {
         super.onResume();
         this.scanChangeStatus(false);
     }
 
-    static interface ScanListPresenter {
+    static interface OnScanListListener {
 
         void onScanStart();
 
@@ -139,6 +149,5 @@ public class ScanListFragment extends ListFragment {
          * @param address
          */
         void onDisplayDevice(String address);
-
     }
 }

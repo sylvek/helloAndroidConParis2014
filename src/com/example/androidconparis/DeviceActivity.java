@@ -28,8 +28,6 @@ public class DeviceActivity extends Activity {
 
     public static final String ADDRESS = "address";
 
-    private DeviceFragment fragment;
-
     private BluetoothGatt bluetoothGatt;
 
     private BluetoothGattCharacteristic temperature, unit;
@@ -42,8 +40,7 @@ public class DeviceActivity extends Activity {
 
         if (savedInstanceState == null) {
             String address = getIntent().getStringExtra(ADDRESS);
-            this.fragment = DeviceFragment.instance(address);
-            this.getFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
+            this.getFragmentManager().beginTransaction().add(R.id.container, DeviceFragment.instance()).commit();
             this.setTitle(address);
         }
     }
@@ -85,8 +82,11 @@ public class DeviceActivity extends Activity {
                         @Override
                         public void run()
                         {
-                            fragment.setUnit(characteristic.getStringValue(0));
-                            listenTemperature(true);
+                            DeviceFragment f = (DeviceFragment) getFragmentManager().findFragmentById(R.id.container);
+                            if (f != null) {
+                                f.setUnit(characteristic.getStringValue(0));
+                                listenTemperature(true);
+                            }
                         }
                     });
                 }
@@ -104,7 +104,10 @@ public class DeviceActivity extends Activity {
                         @Override
                         public void run()
                         {
-                            fragment.setTemperature(String.valueOf(temperature));
+                            DeviceFragment f = (DeviceFragment) getFragmentManager().findFragmentById(R.id.container);
+                            if (f != null) {
+                                f.setTemperature(String.valueOf(temperature));
+                            }
                         }
                     });
                 }

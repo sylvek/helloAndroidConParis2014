@@ -1,6 +1,6 @@
 package com.example.androidconparis;
 
-import com.example.androidconparis.ScanListFragment.ScanListPresenter;
+import com.example.androidconparis.ScanListFragment.OnScanListListener;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -19,7 +19,7 @@ import android.widget.Toast;
  * @author sylvek
  * 
  */
-public class MainActivity extends Activity implements ScanListPresenter {
+public class MainActivity extends Activity implements OnScanListListener {
 
     private final static int REQUEST_ENABLE_BT = 1;
 
@@ -29,14 +29,15 @@ public class MainActivity extends Activity implements ScanListPresenter {
 
     private Handler mHandler;
 
-    private ScanListFragment scanList;
-
     private LeScanCallback mLeScanCallback = new LeScanCallback() {
 
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord)
         {
-            scanList.addScannedDevice(device.getAddress(), device.getName());
+            ScanListFragment f = (ScanListFragment) getFragmentManager().findFragmentById(R.id.container);
+            if (f != null) {
+                f.addScannedDevice(device.getAddress(), device.getName());
+            }
         }
     };
 
@@ -55,8 +56,7 @@ public class MainActivity extends Activity implements ScanListPresenter {
 
         // Attach fragment
         if (savedInstanceState == null) {
-            this.scanList = ScanListFragment.instance(this);
-            getFragmentManager().beginTransaction().add(R.id.container, scanList).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, ScanListFragment.instance()).commit();
         }
 
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
@@ -87,15 +87,23 @@ public class MainActivity extends Activity implements ScanListPresenter {
                 public void run()
                 {
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                    scanList.scanChangeStatus(false);
+                    onScanChangeStatus(false);
                 }
             }, SCAN_PERIOD);
 
             mBluetoothAdapter.startLeScan(mLeScanCallback);
-            scanList.scanChangeStatus(true);
+            onScanChangeStatus(true);
         } else {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            scanList.scanChangeStatus(false);
+            onScanChangeStatus(false);
+        }
+    }
+
+    private void onScanChangeStatus(boolean b)
+    {
+        ScanListFragment f = (ScanListFragment) getFragmentManager().findFragmentById(R.id.container);
+        if (f != null) {
+            f.scanChangeStatus(b);
         }
     }
 

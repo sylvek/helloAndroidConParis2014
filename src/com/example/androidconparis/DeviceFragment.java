@@ -24,7 +24,7 @@ public class DeviceFragment extends Fragment {
 
     private TextView temperature, unit;
 
-    public static DeviceFragment instance(String address)
+    public static DeviceFragment instance()
     {
         return new DeviceFragment();
     }
