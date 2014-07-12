@@ -7,6 +7,5 @@
     <string name="ble_not_supported">sorry bluetooth LE is not supported on your device</string>
     <string name="title_activity_device">Device</string>
     <string name="hello_world">--</string>
-    <string name="action_settings">Settings</string>
 
 </resources>

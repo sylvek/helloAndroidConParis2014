@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:text="@string/hello_world"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="100sp" />
+        android:textSize="140sp" />
 
     <TextView
         android:id="@+id/unit"
@@ -25,6 +25,6 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/temperature"
         android:text="@string/hello_world"
-        android:textSize="60sp" />
+        android:textSize="100sp" />
 
 </RelativeLayout>
